@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SeleniumAutomation01" />
+        <module name="FeatureFiles_Cucumber001" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="FeatureFiles_Cucumber001" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

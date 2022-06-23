@@ -1,29 +1,37 @@
 package org.example;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
+
+import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 import java.util.*;
+
+import static org.openqa.selenium.By.xpath;
 import static org.testng.Assert.assertTrue;
 
+public class HomePage extends Utils
 
-
-public class HomePage extends Utils {
-
-  public void clickOnRegisterButton() {
+{
+  SoftAssert softAssert=new SoftAssert();
+  public void clickOnRegisterButton()
+  {
     // click on register button
     clickOnElement(By.className("ico-register"));
   }
-
-  public void clickOnComputer() {
+  public void clickOnComputer()
+  {
     //click on computer
-    clickOnElement(By.xpath("//ul[@class='top-menu notmobile']//a[text()='Computers ']"));
+    clickOnElement(xpath("//ul[@class='top-menu notmobile']//a[text()='Computers ']"));
   }
-
-  public void clickOnDesktop() {
+  public void clickOnDesktop()
+  {
     //click on deskTop
-    clickOnElement(By.xpath("//img[@alt=\"Picture for category Desktops\"]"));
+    clickOnElement(xpath("//img[@alt=\"Picture for category Desktops\"]"));
   }
 //======================================================================================================================
 //@Test
@@ -39,13 +47,12 @@ public class HomePage extends Utils {
 //  homePage.verifyCurrancyIsEuro();
 //}
 //=====================================================================================================================
-public void clickOnCurrency() {
-
-
-  Select USDollar = new Select(driver.findElement(By.xpath("//select[@name=\"customerCurrency\"]")));
+public void clickOnCurrency()
+{
+  Select USDollar = new Select(driver.findElement(xpath("//select[@name=\"customerCurrency\"]")));
   USDollar.selectByValue("https://demo.nopcommerce.com/changecurrency/1?returnUrl=%2F");
 
-  String expectedMessage7 = driver.findElement(By.xpath("//span[contains(text(),'$1,200.00')]")).getText();
+  String expectedMessage7 = driver.findElement(xpath("//span[contains(text(),'$1,200.00')]")).getText();
   assertTrue(expectedMessage7.contains("$"));
 
   //select Euro
@@ -53,45 +60,43 @@ public void clickOnCurrency() {
   Select Euro = new Select(driver.findElement(By.id("customerCurrency")));
   Euro.selectByValue("https://demo.nopcommerce.com/changecurrency/6?returnUrl=%2F");
 
-  String expectedMessage3 = driver.findElement(By.xpath("//span [contains (text (),'€1032.00')]")).getText();
+  String expectedMessage3 = driver.findElement(xpath("//span [contains (text (),'€1032.00')]")).getText();
   assertTrue(expectedMessage3.contains("€"));
 }
-
-  public void verifyIfNonRegisteredUserIsAbleToVote() {
+public void verifyIfNonRegisteredUserIsAbleToVote()
+{
     //click on radio button good
     clickOnElement(By.id("pollanswers-2"));
 
     //click on vote
-    clickOnElement(By.xpath("//button[@id=\"vote-poll-1\"]"));
+    clickOnElement(xpath("//button[@id=\"vote-poll-1\"]"));
     //verify user is not able to vote without being registered
     // delays until message appears
     try {
       Thread.sleep(500);
     } catch (InterruptedException e) {
     }
-    String actualMessage = driver.findElement(By.xpath("//*[@id=\"block-poll-vote-error-1\"]")).getText();
+    String actualMessage = driver.findElement(xpath("//*[@id=\"block-poll-vote-error-1\"]")).getText();
     Assert.assertEquals(actualMessage.contains("Only registered users can vote."), "Only registered users can vote");
   }
-
-  public void verifyRegisteredUserIsAbleToVote() {
-    clickOnElement(By.xpath("//img[@alt=\"nopCommerce demo store\"]"));
+  public void verifyRegisteredUserIsAbleToVote()
+  {
+    clickOnElement(xpath("//img[@alt=\"nopCommerce demo store\"]"));
     //click on radio button good
-    clickOnElement(By.xpath("//input[@id=\"pollanswers-2\"]"));
+    clickOnElement(xpath("//input[@id=\"pollanswers-2\"]"));
     //click on vote
     clickOnElement(By.className("ico-register"));
-    clickOnElement(By.xpath("//*[@id=\"vote-poll-1\"]"));
+    clickOnElement(xpath("//*[@id=\"vote-poll-1\"]"));
     //verify registered user should be able to vote
-    String actualMessage = driver.findElement(By.xpath("//*[@id=\"poll-block-1\"]/span")).getText();
+    String actualMessage = driver.findElement(xpath("//*[@id=\"poll-block-1\"]/span")).getText();
 //  Assert.assertTrue("\"//assertTrue(actualMessage.contains(\\\"vote(s)...\\\"), \\\"non registerd user is able to vote\\\")");
     Assert.assertEquals(actualMessage.contains("vote(s)..."), "vote(s)...");
   }
 
-
-
   //AlertMessage==========================================================================================
   public void userShouldBeAbleToReceiveAlertMessage() {
     //Click vote button
-    clickOnElement(By.xpath("//button[@class=\"button-2 vote-poll-button\"]"));
+    clickOnElement(xpath("//button[@class=\"button-2 vote-poll-button\"]"));
     //Switch to alert
     Alert simpleAlert = driver.switchTo().alert();
     //Get text for alert
@@ -110,9 +115,11 @@ public void clickOnCurrency() {
     Set<String> s1 = driver.getWindowHandles();
     Iterator<String> i1 = s1.iterator();
 
-    while (i1.hasNext()) {
+    while (i1.hasNext())
+    {
       String ChildWindow = i1.next();
-      if (!MainWindow.equalsIgnoreCase(ChildWindow)) {
+      if (!MainWindow.equalsIgnoreCase(ChildWindow))
+      {
         //Switching to child window
         driver.switchTo().window(ChildWindow);
         // verify user is on correct Facebook page
@@ -131,12 +138,14 @@ public void clickOnCurrency() {
   }
 //SearchTextBox========================================================================================================================
 
-  public void verifyUserOnHomepage(){
+  public void verifyUserOnHomepage()
+  {
     String expectedUrl="https://demo.nopcommerce.com/";
     String actualUrl=driver.getCurrentUrl();
     Assert.assertEquals(actualUrl,expectedUrl);
 }
-  public void enterWordInSearchTextBox(String product) {
+  public void enterWordInSearchTextBox(String product)
+  {
   // enter text in searchTextBox//
   typeText(By.id("small-searchterms"), product);
   //verify url//
@@ -147,23 +156,62 @@ public void clickOnCurrency() {
   clickOnElement(By.className("search-box-button"));
   //check all products
   List<WebElement> productTitles = driver.findElements
-          (By.xpath("//div[contains(@class,'product-grid')]//div[@class='item-box']//h2"));
-  for (WebElement e : productTitles) {
+          (xpath("//div[contains(@class,'product-grid')]//div[@class='item-box']//h2"));
+  for (WebElement e : productTitles)
+  {
     System.out.println(e.getText());
   }
 }
-
-public void clickOnDetailsButtons(){
-    clickOnElement(By.xpath("/html/body/div[6]/div[3]/div/div/div/div/div[5]/div[2]/div[2]/div[3]/a"));
+public void clickOnDetailsButtons()
+{
+    clickOnElement(xpath("/html/body/div[6]/div[3]/div/div/div/div/div[5]/div[2]/div[2]/div[3]/a"));
 }
 
-  public void searchStore (){
-    clickOnElement(By.xpath("//*[@id=\"small-searchterms\"]"));
-
+  public void searchStore ()
+  {
+    clickOnElement(xpath("//*[@id=\"small-searchterms\"]"));
   }
 
+  //==================================================================================================================
+  public void getProductTitles(){
+    List<WebElement>productTitle = driver.findElements(xpath("//div[contains@class,'product-grid')]//div[@class='item-box']//h2"));
+    System.out.println(productTitle.size());
+    List<String>productName=new ArrayList<String>();
+    for (WebElement e: productTitle){
+      productName.add(e.getText());  //.click,sendkeys,selectfromDropDown...youcan choose any one
+    }
+      System.out.println(productName);
   }
+//====================================================================================
 
+//  public void verifyHomePageContent(){
+//    softAssert.assertEquals(getText(By.className("\"ico-register\"")),"register");
+//    softAssert.assertEquals(getText(By.className("\"ico-login\"")),"register");
+//    softAssert.assertEquals(getText(By.xpath("\"ico-register\"")),"register");
+//    softAssert.assertAll();
+//  }
+  //====================================================================================================================
+
+////  public void navigateToSubcategoryPageHover(String categoryName, String subcategoryName) {
+////    Actions actions = new Actions(driver);
+//    Action hoverOverCategory = actions.moveToElement(driver.findElement(By.linkText(categoryname)))
+//            .moveToElement(driver.findElement(By.xpath("//ul[@class='top-menu notmobile']//a[contains(text)," + subcatagoryName + ")]")))    //perameterized xpath
+//                                      .click().build();
+//    hoverOverCatagory.perform();
+////    Assert.assertTrue(driver.getCurrentUrl().contains("desktops"));
+////}
+//
+//////-Dbrowser=chrome    <---rundebug configeretion code
+//  }
+
+//==================================================================================================================
+
+
+  public void clickOnCategoryLink(String categoryName){
+    clickOnElement(By.linkText(categoryName));
+
+  }
+  }
 
 
 

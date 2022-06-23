@@ -1,8 +1,15 @@
 package org.example;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
@@ -30,7 +37,7 @@ public class Utils extends BasePage {
     //4 method----------------------------------
     public static String randomDate() {
         Date date = new Date();  //2
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy/HH/mm/ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyyHHmmss");
         return formatter.format(date);
 
         //Date date = new Date();  //1
@@ -45,20 +52,20 @@ public class Utils extends BasePage {
     }
 
     //6 method----------------------------------
-    public static String timeAtamp() {
+    public static String timeStamp() {
         SimpleDateFormat date = new SimpleDateFormat("yyMMddHHmmss");
-        return timeAtamp();
+        return timeStamp();
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     //7 method----------------------------------
-    public static void driverWaitsUntillURLTobe(int time, String url) {
+    public static void driverWaitsUntilURLToBe(int time, String url) {
         WebDriverWait wait01 = new WebDriverWait(driver, Duration.ofSeconds(time));
         //wait.until(ExpectedCondition.elementToBeClickable(By.Xpath("//button[@name='register-button']")));
         wait01.until(ExpectedConditions.urlToBe("https://demo.nopcommerce.com/"));
     }
 
-    public static void driverWaitsUntillURLTobeClickable(By by, int time) { //1
+    public static void driverWaitsUntilURLTobeClickable(By by, int time) { //1
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(time));
         wait.until(ExpectedConditions.elementToBeClickable(by));
     }                                                                                             //1driverWait commands
@@ -80,7 +87,6 @@ public class Utils extends BasePage {
 
     public static void DriverWaitSelectElement(int time, By by) { //5
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(time));
-
     }                                                                                           //6driverWait commands
 
     public static void DriverWaitPresenceOfAllElementsLocatedBy(int time, By by) { //6
@@ -101,7 +107,6 @@ public class Utils extends BasePage {
     public static void DriverWaitElementToBeSelected(int time, By by) { //9
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(time));
         wait.until(ExpectedConditions.elementToBeSelected(by));
-
     }                                                                                            //10driverWait commands
 
     public static void DriverWait(int time, String name) { //10
@@ -116,45 +121,42 @@ public class Utils extends BasePage {
     public static void sendKeys(By by, String text) { //enter firstname
         driver.findElement(by).sendKeys(text);
     }
-}
-//6 method----------------------------------
 
+//6 method----------------------------------
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 //Screenshot code-----------
 //<<<<<<<<<<<<<<<
 
 
-//public static void takeSnapShot(String a ) throws Exception{
-//
-//    //Convert web driver object to TakeScreenshot
-//
-//    TakesScreenshot scrShot =((TakesScreenshot)driver);
-//
-//    //Call getScreenshotAs method to create image file
-//
-//    File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
-//
-//    File DestFile=new File("ScreenShots\\"+a+randomDate()+"png")); //giv parameter
-//
-//    //Copy file at destination
-//    try{
-//        FileUtils.copyFile(SrcFile, DestFile);
-//
-//    }catch(IOException e){
-//        e.printStackTrace();
-//    }
-////   @Test
-////    public void ScreenShots() {
-////        takeSnapShot("ash");
-////        takeSnapShot("zxx");
-//}
-//}
+    public static void takeSnapShot(String a) {
+        TakesScreenshot scrShot = ((TakesScreenshot) driver);
+        //Call getScreenShots method to create image file
+        File srcFile = scrShot.getScreenshotAs(OutputType.FILE);
+
+        // copy file at destination
+
+        try {
+            FileUtils.copyFile(srcFile, new File("Screenshots\\" + a + randomDate() + ".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 //====================================================================================
 //7 method----------------------------------
 
 //
-//    public static void verifyEqual(By by, String expectedText) {
+//    public static void verifyEqual(By by, String expectedText)
+//    {
 //        Assert.assertEquals(getTextFromElement(by), expectedText);
 //    }
 //}
+//=================================================================================================
+    public static void verifyCurrentUrl(String url){
+        Assert.assertEquals(driver.getCurrentUrl(),url);
+    }
+
+//=========================================================================================================
+
+}
