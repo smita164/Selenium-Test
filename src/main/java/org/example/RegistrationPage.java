@@ -1,13 +1,8 @@
 package org.example;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
-
 
 public class RegistrationPage extends Utils {
-    LoadProp loadProp = new LoadProp(); //object
-
 
     private By _genderFemale = By.id("gender-female");
     private By _firstname = By.id("FirstName");
@@ -20,18 +15,16 @@ public class RegistrationPage extends Utils {
     private By _ConfirmPassword = By.id("ConfirmPassword");
     private By _registerbutton = By.id("registerbutton");
 
-    @Test
-    public void verifyUserRegistrationPage() {
+    public void userEnterRegistrationDetails() {
         //select gender male or female Radio button
         clickOnElement(_genderFemale); //adio button
 
         //Enter First Name------------------------
         //
-        typeText(_firstname, loadProp.getProperty("firstName"));
+        typeText(_firstname, "smita");
 
         //Enter Last Name-------------------------
-        //typeText(By.id("LastName"), "Patel");
-        typeText(_lastname, loadProp.getProperty("LastName"));
+       typeText(By.id("LastName"), "Patel");
 
         //Date of birth day----------------------
         Select birthDay = new Select(driver.findElement(By.name("DateOfBirthDay")));//select on the day
@@ -47,19 +40,16 @@ public class RegistrationPage extends Utils {
 
         //Enter Email----------------------------
         System.out.println(randomDate());
-        //typeText(By.id("Email"), "smita.mpatel164" + randomDate() + "@gmail.com");//without locater
-        typeText(_Email, loadProp.getProperty("smita.mpatel164" + randomDate() + "@gmail.com"));
+        typeText(By.id("Email"), "smita.mpatel164" + randomDate() + "@gmail.com");//without locater
 
+        //Enter password
+        typeText(_Password,"Test1234" );
 
-        //Enter Email----------------------------
-        typeText(_Password, loadProp.getProperty("mpatel164"));
-
-        //Enter your confirm password-------------
-        typeText(_ConfirmPassword, loadProp.getProperty("mpatel164"));
+        //Enter confirm password
+        typeText(_ConfirmPassword,"Test1234" );
 
         //Click on register button------------------------
-        //clickOnElement(By.id("register-button"))clickOnElement(_registerbutton,loadProp.getProperty("register-button"));
-
+        //
+        clickOnElement(By.id("register-button"));
     }
-
 }

@@ -1,42 +1,45 @@
 package org.example;
 
+
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.time.Duration;
 
 public class DriverManager extends Utils {
-    //open browser methode
-    String browserName ="chrome";
-    public void openBrowser() {
 
-        if (browserName.equalsIgnoreCase("chrome")) {
 
-            System.setProperty("webdriver.chrome.driver", "src/test/java/Drivers/chromedriver.exe");
 
-            driver = new ChromeDriver(); //impoert chrome web driver dependency(in pomfile)
+    String browserName = "Chrome";
 
-        } else if (browserName.equalsIgnoreCase("firefox")) {
+    public  void openBrowser() {
 
-            System.setProperty("webdriver.gecko.diver", "src/test/java/Drivers/geckodriver.exe");
+        if   (browserName.equalsIgnoreCase("Chrome")) {
 
+            System.setProperty("webdriver.chrome.driver", "src/test/java/drivers/chromedriver.exe");
+            driver = new ChromeDriver();
+        }else if (browserName.equalsIgnoreCase("firefox")) {
+            System.setProperty("webdriver.gecko.driver", "src/test/java/Drivers/geckodriver.exe");
             driver = new FirefoxDriver();
-           //DesiredCapabilities capabilities = DesiredCapabilities;
 
+        }else if (browserName.equalsIgnoreCase("Edge")) {
+            System.setProperty("webdriver.edge.driver", "src/test/java/Drivers/msedgedriver.exe");
+            driver = new EdgeDriver();
+
+        }
+        //Implicit wait method :
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        //Maximizing chrome window:
+        driver.manage().window().maximize();
+
+        //Driver to type URL :
+        driver.get("https://demo.nopcommerce.com/");
     }
-        //Duration to be wait
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20)); //duration to be wait
-            //screen maximize
-            driver.manage().window().maximize(); //maximizing screen
-            //type URL opening web page
-            driver.get("https://demo.nopcommerce.com/");
-    }
-    //close browser methode
+
     public void closeBrowser() {
         driver.quit();
 
     }
-
-
 }
